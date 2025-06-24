@@ -1,0 +1,69 @@
+<!-- src/main/resources/templates/recipes/list.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div class="main-content">
+    <div class="content-wrapper">
+
+        <div class="dashboard-header" style="position: relative;">
+            <div style="position: absolute; top: 20px; right: 20px;">
+                <form th:action="@{/logout}" method="post" style="display: inline;">
+                    <button type="submit" class="btn-view" style="background-color: var(--gray-600);">🚪 Logout</button>
+                </form>
+            </div>
+            <h1 class="page-title">Recipes Library</h1>
+            <p>View and manage all recipes</p>
+        </div>
+
+        <div class="table-container">
+            <div class="table-header">
+                <h2>All Recipes</h2>
+                <a th:href="@{/recipes/new}" class="btn-primary">New Recipe</a>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Cost</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="r : ${recipes}">
+                            <td th:text="${r.id}">1</td>
+                            <td th:text="${r.name}">Recipe Name</td>
+                            <td th:text="${r.description}">Desc</td>
+                            <td th:text="${r.cost}">0.00</td>
+                            <td class="d-flex gap-2">
+                                <a th:href="@{/recipes/{id}(id=${r.id})}" class="btn-view">View</a>
+                                <a th:href="@{/recipes/{id}/edit(id=${r.id})}" class="btn-view" style="background-color: var(--warning);">Edit</a>
+                                <form th:action="@{/recipes/{id}/delete(id=${r.id})}" method="post" style="display:inline">
+                                    <button class="btn-view" style="background-color: var(--danger);"
+                                            onclick="return confirm('Delete this recipe?');">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a th:href="@{/chefboard}" class="btn-view" style="background-color: var(--gray-600);">Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

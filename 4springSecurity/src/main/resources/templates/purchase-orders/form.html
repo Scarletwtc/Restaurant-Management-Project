@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:fragment="title">Purchase Order Form</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="main-content">
+    <div class="content-wrapper">
+        <div class="dashboard-header">
+            <h1 class="page-title" th:text="${purchaseOrder.id} == null ? 'New Purchase Order' : 'Edit Purchase Order'">Purchase Order Form</h1>
+            <p th:text="${purchaseOrder.id} == null ? 'Create a fresh order' : 'Update order details'"></p>
+        </div>
+
+        <div class="form-container">
+            <div class="card">
+                <div class="form-body">
+                    <!-- CREATE -->
+                    <form th:if="${purchaseOrder.id} == null"
+                          th:action="@{/purchase-orders}"
+                          th:object="${purchaseOrder}"
+                          method="post">
+                        <div class="row mb-4">
+                            <div class="col col-md-6 form-group">
+                                <label class="form-label">Supplier</label>
+                                <select th:field="*{supplier.id}" class="form-control">
+                                    <option th:each="sup : ${suppliers}"
+                                            th:value="${sup.id}"
+                                            th:text="${sup.name}"/>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col form-group">
+                                <label class="form-label">Ingredients & Quantities</label>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                        <tr><th>Ingredient</th><th>Quantity</th></tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="ing : ${ingredients}">
+                                            <td th:text="${ing.name}">Name</td>
+                                            <td>
+                                                <input type="number"
+                                                       th:name="ingredientIds"
+                                                       th:value="${ing.id}"
+                                                       hidden/>
+                                                <input type="number"
+                                                       th:name="quantities"
+                                                       step="0.01"
+                                                       value="0"
+                                                       min="0"
+                                                       class="form-control"/>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-footer">
+                            <a th:href="@{/purchase-orders}" class="btn-view" style="background-color: var(--gray-600);">Back to List</a>
+                            <button type="submit" class="btn-primary">Create Order</button>
+                        </div>
+                    </form>
+
+                    <!-- EDIT -->
+                    <form th:unless="${purchaseOrder.id} == null"
+                          th:action="@{/purchase-orders/{id}(id=${purchaseOrder.id})}"
+                          th:object="${purchaseOrder}"
+                          method="post">
+                        <!-- you can copy the same fields here if desired -->
+                        <div class="form-footer">
+                            <a th:href="@{/purchase-orders}" class="btn-view" style="background-color: var(--gray-600);">Back to List</a>
+                            <button type="submit" class="btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

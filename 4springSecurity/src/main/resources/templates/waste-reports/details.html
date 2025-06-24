@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:fragment="title">Waste Report Details</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+
+</head>
+<body>
+<div th:fragment="content">
+    <dl class="row">
+        <dt class="col-sm-3">ID</dt>
+        <dd class="col-sm-9" th:text="${wasteReport.id}"/>
+
+        <dt class="col-sm-3">Date</dt>
+        <dd class="col-sm-9"
+            th:text="${#dates.format(wasteReport.date,'yyyy-MM-dd')}"/>
+
+        <dt class="col-sm-3">Reason</dt>
+        <dd class="col-sm-9" th:text="${wasteReport.reason}"/>
+
+        <dt class="col-sm-3">Total Qty Wasted</dt>
+        <dd class="col-sm-9" th:text="${wasteReport.quantityWasted}"/>
+    </dl>
+    <a th:href="@{/waste-reports}" class="btn btn-secondary">Back to List</a>
+</div>
+</body>
+</html>

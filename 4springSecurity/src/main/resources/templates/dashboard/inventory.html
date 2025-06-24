@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory | Kitchen Management</title>
+    <link rel="stylesheet" th:href="@{/css/styles2.css}" />
+</head>
+<body>
+<nav>
+    <a th:href="@{/dashboard}">Dashboard</a>
+    <a th:href="@{/dashboard/inventory}" class="active">Inventory</a>
+    <a th:href="@{/dashboard/orders}">Orders</a>
+    <a th:href="@{/dashboard/waste}">Waste Reports</a>
+    <a th:href="@{/dashboard/suppliers}">Suppliers</a>
+    <a th:href="@{/logout}" >Logout</a>
+</nav>
+
+<div class="container">
+    <h1>Inventory Management</h1>
+
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span>Current Inventory</span>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Unit</th>
+                        <th>Threshold</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="ing : ${ingredients}">
+                        <td th:text="${ing.name}"></td>
+                        <td th:text="${ing.quantity}" th:class="${ing.quantity <= ing.threshold ? 'text-danger' : ''}"></td>
+                        <td th:text="${ing.unit}"></td>
+                        <td th:text="${ing.threshold}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="text-center">
+    <div class="container">
+        <p>&copy; 2023 Kitchen Management System. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

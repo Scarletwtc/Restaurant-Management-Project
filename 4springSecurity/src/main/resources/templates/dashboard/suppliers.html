@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suppliers</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<nav class="main-nav">
+    <div class="nav-container">
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/dashboard/inventory}">Inventory</a>
+        <a th:href="@{/dashboard/orders}">Orders</a>
+        <a th:href="@{/dashboard/waste}">Waste Reports</a>
+        <a th:href="@{/dashboard/suppliers}" class="active">Suppliers</a>
+        <a th:href="@{/logout}" class="logout-btn" style="margin-left: auto;">Logout</a>
+    </div>
+</nav>
+
+<div class="main-content">
+    <div class="content-wrapper">
+        <div class="dashboard-header">
+            <h1 class="page-title">Suppliers Management</h1>
+            <p>View all suppliers for the kitchen inventory</p>
+        </div>
+
+        <div class="table-container mb-4">
+            <div class="table-header">
+                <h2>Suppliers List</h2>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <table class="w-100">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Contact</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="sup : ${suppliers}">
+                            <td th:text="${sup.id}">1</td>
+                            <td th:text="${sup.name}">Supplier Name</td>
+                            <td th:text="${sup.contactInfo}">contact@supplier.com</td>
+                        
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="text-center">
+    <div class="container">
+        <p>&copy; 2023 Kitchen Management System. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

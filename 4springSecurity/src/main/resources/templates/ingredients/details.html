@@ -1,0 +1,73 @@
+<!-- src/main/resources/templates/ingredients/details.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:fragment="title">Ingredient Details</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div th:fragment="content" class="main-content">
+    <div class="content-wrapper">
+        <div class="dashboard-header">
+            <h1 class="page-title">Ingredient Details</h1>
+            <p>Viewing detailed information for this ingredient</p>
+        </div>
+        
+        <div class="detail-view">
+            <div class="card">
+                <div class="card-header">
+                    <h2 th:text="${ingredient.name}">Ingredient Name</h2>
+                </div>
+                
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">ID</dt>
+                        <dd class="col-sm-9" th:text="${ingredient.id}"/>
+
+                        <dt class="col-sm-3">Name</dt>
+                        <dd class="col-sm-9" th:text="${ingredient.name}"/>
+
+                        <dt class="col-sm-3">Quantity</dt>
+                        <dd class="col-sm-9" th:text="${ingredient.quantity}"/>
+
+                        <dt class="col-sm-3">Unit</dt>
+                        <dd class="col-sm-9" th:text="${ingredient.unit}"/>
+
+                        <dt class="col-sm-3">Price</dt>
+                        <dd class="col-sm-9" th:text="${ingredient.price}"/>
+
+                        <dt class="col-sm-3">Expiry Date</dt>
+                        <dd class="col-sm-9" th:text="${#dates.format(ingredient.expiryDate,'yyyy-MM-dd')}"/>
+
+                        <dt class="col-sm-3">Last Updated</dt>
+                        <dd class="col-sm-9" th:text="${#dates.format(ingredient.lastUpdated,'yyyy-MM-dd HH:mm')}"/>
+
+                        <dt class="col-sm-3">Threshold</dt>
+                        <dd class="col-sm-9" th:text="${ingredient.threshold}"/>
+                    </dl>
+                </div>
+                
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+                        <a th:href="@{/ingredients}" class="btn-view" style="background-color: var(--gray-600);">Back to List</a>
+                        <div>
+                            <a th:href="@{'/ingredients/' + ${ingredient.id} + '/edit'}" class="btn-view" style="background-color: var(--warning);">Edit</a>
+                            <form th:action="@{'/ingredients/' + ${ingredient.id} + '/mark-waste'}" method="post" style="display:inline">
+                                <div class="waste-form">
+                                    <input type="number" name="wasteAmount" min="0" max="${ingredient.quantity}" step="0.01" required 
+                                           class="form-control" style="width: 100px; display: inline-block; margin-right: 10px;"
+                                           placeholder="Amount"/>
+                                    <button class="btn-view" style="background-color: var(--danger);">Mark as Waste</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

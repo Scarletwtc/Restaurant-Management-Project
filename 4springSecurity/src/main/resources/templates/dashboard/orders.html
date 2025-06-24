@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Orders | Kitchen Management</title>
+    <link rel="stylesheet" th:href="@{/css/styles2.css}" />
+</head>
+<body>
+<nav>
+    <a th:href="@{/dashboard}">Dashboard</a>
+    <a th:href="@{/dashboard/inventory}">Inventory</a>
+    <a th:href="@{/dashboard/orders}" class="active">Orders</a>
+    <a th:href="@{/dashboard/waste}">Waste Reports</a>
+    <a th:href="@{/dashboard/suppliers}">Suppliers</a>
+    <a th:href="@{/logout}" >Logout</a>
+</nav>
+
+<div class="container">
+    <h1>Purchase Orders</h1>
+
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span>All Purchase Orders</span>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Supplier</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="po : ${purchaseOrders}">
+                        <td th:text="${po.id}"></td>
+                        <td th:text="${po.supplier.name}"></td>
+                        <td th:text="${#dates.format(po.orderDate,'yyyy-MM-dd')}"></td>
+                        <td>
+                                    <span th:text="${po.status}"
+                                          th:class="${po.status == 'Approved' ? 'text-success' :
+                                                     (po.status == 'Pending' ? 'text-warning' :
+                                                     (po.status == 'Rejected' ? 'text-danger' : ''))}">
+                                    </span>
+                        </td>
+                        <td th:text="${'$' + po.totalCost}"></td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-success" th:if="${po.status == 'Pending'}">Approve</a>
+                            <a href="#" class="btn btn-sm btn-danger" th:if="${po.status == 'Pending'}">Reject</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="text-center">
+    <div class="container">
+        <p>&copy; 2023 Kitchen Management System. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

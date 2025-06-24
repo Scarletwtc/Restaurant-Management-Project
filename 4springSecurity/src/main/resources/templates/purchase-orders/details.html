@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:fragment="title">Purchase Order Details</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="main-content">
+    <div class="content-wrapper">
+        <div class="dashboard-header">
+            <h1 class="page-title">Purchase Order Details</h1>
+            <p>View full details of this order</p>
+        </div>
+        <div class="detail-view">
+            <div class="card">
+                <div class="card-body">
+                    <dl class="row detail-list">
+                        <dt class="col-sm-3">ID</dt>
+                        <dd class="col-sm-9" th:text="${purchaseOrder.id}"/>
+
+                        <dt class="col-sm-3">Supplier</dt>
+                        <dd class="col-sm-9" th:text="${purchaseOrder.supplier.name}"/>
+
+                        <dt class="col-sm-3">Order Date</dt>
+                        <dd class="col-sm-9" th:text="${#dates.format(purchaseOrder.orderDate,'yyyy-MM-dd')}"/>
+
+                        <dt class="col-sm-3">Status</dt>
+                        <dd class="col-sm-9">
+              <span th:if="${purchaseOrder.status=='PENDING'}"
+                    class="status-badge status-pending"
+                    th:text="${purchaseOrder.status}"></span>
+                            <span th:if="${purchaseOrder.status=='APPROVED'}"
+                                  class="status-badge status-approved"
+                                  th:text="${purchaseOrder.status}"></span>
+                            <span th:if="${purchaseOrder.status!='PENDING' and purchaseOrder.status!='APPROVED'}"
+                                  class="status-badge status-rejected"
+                                  th:text="${purchaseOrder.status}"></span>
+                        </dd>
+
+                        <dt class="col-sm-3">Total Cost</dt>
+                        <dd class="col-sm-9" th:text="${purchaseOrder.totalCost}"/>
+
+                        <dt class="col-sm-3">Items</dt>
+                        <dd class="col-sm-9">
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>Ingredient</th>
+                                        <th>Qty</th>
+                                        <th>Unit Price</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="oi : ${purchaseOrder.orderItems}">
+                                        <td th:text="${oi.itemName}"/>
+                                        <td th:text="${oi.quantity}"/>
+                                        <td th:text="${oi.price}"/>
+                                        <td th:text="${oi.subtotal}"/>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer">
+                    <a th:href="@{/purchase-orders}" class="btn-view" style="background-color: var(--gray-600);">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

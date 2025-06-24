@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Waste Report</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a th:href="@{/dashboard}">Dashboard</a>
+            <a th:href="@{/dashboard/inventory}">Inventory</a>
+            <a th:href="@{/dashboard/orders}">Orders</a>
+            <a th:href="@{/dashboard/waste}" class="active">Waste Reports</a>
+            <a th:href="@{/dashboard/suppliers}">Suppliers</a>
+            <a th:href="@{/logout}" class="logout-btn" style="margin-left: auto;">Logout</a>
+        </div>
+    </nav>
+<div class="main-content">
+    <div class="content-wrapper">
+        <div class="dashboard-header">
+            <h1 class="page-title">Waste Report</h1>
+            <p>View wasted ingredients</p>
+        </div>
+
+        <div class="table-container mb-4">
+            <div class="table-header">
+                <h2>Wasted Ingredients</h2>
+            </div>
+            
+            <div class="card">
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Waste Amount</th>
+                                <th>Unit</th>
+                                <th>Last Waste Date</th>
+                                <th>Original Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="ingredient : ${wastedIngredients}">
+                                <td th:text="${ingredient.name}">Ingredient Name</td>
+                                <td th:text="${ingredient.wasteAmount}">0</td>
+                                <td th:text="${ingredient.unit}">kg</td>
+                                <td th:text="${#dates.format(ingredient.lastWasteDate,'yyyy-MM-dd')}">-</td>
+                                <td th:text="${ingredient.price}">0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

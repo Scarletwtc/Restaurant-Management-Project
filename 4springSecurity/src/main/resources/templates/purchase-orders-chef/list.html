@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title th:fragment="title">Purchase Orders - Chef View</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="main-content">
+    <div class="content-wrapper">
+        <div class="dashboard-header" style="position: relative;">
+            <div style="position: absolute; top: 20px; right: 20px;">
+                <form th:action="@{/logout}" method="post" style="display: inline;">
+                    <button type="submit" class="btn-view" style="background-color: var(--gray-600);">🚪 Logout</button>
+                </form>
+            </div>
+            <h1 class="page-title">Purchase Orders</h1>
+            <p>View and create new orders</p>
+        </div>
+
+        <div class="table-container">
+            <div class="table-header">
+                <h2>Orders List</h2>
+                <a class="btn-primary" th:href="@{/purchase-orders/new}">New Purchase Order</a>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Supplier</th>
+                            <th>Order Date</th>
+                            <th>Status</th>
+                            <th>Total Cost</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="po : ${purchaseOrders}">
+                            <td th:text="${po.id}">1</td>
+                            <td th:text="${po.supplier.name}">Supplier Name</td>
+                            <td th:text="${#dates.format(po.orderDate,'yyyy-MM-dd')}">2025-05-01</td>
+                            <td>
+                                <span th:if="${po.status=='PENDING'}"
+                                      class="status-badge status-pending"
+                                      th:text="${po.status}"></span>
+                                <span th:if="${po.status=='APPROVED'}"
+                                      class="status-badge status-approved"
+                                      th:text="${po.status}"></span>
+                                <span th:if="${po.status!='PENDING' and po.status!='APPROVED'}"
+                                      class="status-badge status-rejected"
+                                      th:text="${po.status}"></span>
+                            </td>
+                            <td th:text="${po.totalCost}">0.00</td>
+                            <td>
+                                <a th:href="@{/purchase-orders/{id}(id=${po.id})}" class="btn-action btn-view">View</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a th:href="@{/chefboard}" class="btn-view" style="background-color: var(--gray-600);">Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+</body>
+</html> 

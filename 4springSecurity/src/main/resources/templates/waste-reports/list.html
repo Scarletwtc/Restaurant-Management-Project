@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title th:fragment="title">Waste Reports</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+
+</head>
+<body>
+<div th:fragment="content">
+    <a class="btn btn-primary mb-3"
+       th:href="@{/waste-reports/new}"
+       sec:authorize="hasRole('CHEF')">
+        New Waste Report
+    </a>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Reason</th>
+            <th>Qty Wasted</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="wr : ${wasteReports}">
+            <td th:text="${wr.id}">1</td>
+            <td th:text="${#dates.format(wr.date,'yyyy-MM-dd')}">2025-05-01</td>
+            <td th:text="${wr.reason}">Spoiled</td>
+            <td th:text="${wr.quantityWasted}">12.50</td>
+            <td>
+                <a th:href="@{/waste-reports/{id}(id=${wr.id})}"
+                   class="btn btn-sm btn-info">
+                    View
+                </a>
+                <a th:href="@{/waste-reports/{id}/edit(id=${wr.id})}"
+                   class="btn btn-sm btn-warning"
+                   sec:authorize="hasRole('CHEF')">
+                    Edit
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

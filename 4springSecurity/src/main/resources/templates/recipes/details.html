@@ -1,0 +1,55 @@
+<!-- src/main/resources/templates/recipes/details.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Details</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div class="main-content">
+    <div class="content-wrapper">
+        <div class="dashboard-header">
+            <h1 class="page-title">Recipe Details</h1>
+            <p>Viewing detailed information for this recipe</p>
+        </div>
+
+        <div class="detail-view">
+            <div class="card">
+                <div class="card-header">
+                    <h2 th:text="${recipe.name}">Recipe Name</h2>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">ID</dt>
+                        <dd class="col-sm-9" th:text="${recipe.id}"/>
+
+                        <dt class="col-sm-3">Name</dt>
+                        <dd class="col-sm-9" th:text="${recipe.name}"/>
+
+                        <dt class="col-sm-3">Description</dt>
+                        <dd class="col-sm-9" th:text="${recipe.description}"/>
+
+                        <dt class="col-sm-3">Cost</dt>
+                        <dd class="col-sm-9" th:text="${recipe.cost}"/>
+
+                        <dt class="col-sm-3">Ingredients</dt>
+                        <dd class="col-sm-9">
+                            <ul>
+                                <li th:each="ing : ${ingredientsList}"
+                                    th:text="${ing.name + ' (' + ing.quantity + ' ' + ing.unit + ')'}"/>
+                            </ul>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer">
+                    <a th:href="@{/recipes}" class="btn-view" style="background-color: var(--gray-600);">Back to List</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

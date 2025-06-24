@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitchen Management Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<nav class="main-nav">
+    <div class="nav-container">
+        <a th:href="@{/dashboard}" class="active">Dashboard</a>
+        <a th:href="@{/dashboard/inventory}">Inventory</a>
+        <a th:href="@{/dashboard/orders}">Orders</a>
+        <a th:href="@{/dashboard/waste}">Waste Reports</a>
+        <a th:href="@{/dashboard/suppliers}">Suppliers</a>
+        <a th:href="@{/logout}" class="logout-btn" style="margin-left: auto;">Logout</a>
+    </div>
+</nav>
+
+<div class="main-content">
+    <h1 class="page-title">Kitchen Management Dashboard</h1>
+
+    <div class="dashboard-stats">
+        <div class="stat-card">
+            <h3>Ingredients</h3>
+            <div class="stat-value" th:text="${ingredientCount}">0</div>
+        </div>
+        <div class="stat-card">
+            <h3>Recipes</h3>
+            <div class="stat-value" th:text="${recipeCount}">0</div>
+        </div>
+        <div class="stat-card">
+            <h3>Purchase Orders</h3>
+            <div class="stat-value" th:text="${purchaseOrderCount}">0</div>
+        </div>
+        <div class="stat-card">
+            <h3>Suppliers</h3>
+            <div class="stat-value" th:text="${supplierCount}">0</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col col-md-6">
+            <div class="card">
+                <div class="card-header">Recent Activity</div>
+                <div class="card-body">
+                    <h3>Ingredients (last 5)</h3>
+                    <div class="activity-feed">
+                        <div class="activity-item" th:each="ing : ${recentIngredients}">
+                            <span th:text="${ing.name}"></span>
+                            <span class="activity-date" th:text="${'(' + #dates.format(ing.lastUpdated,'yyyy-MM-dd') + ')'}"></span>
+                        </div>
+                    </div>
+
+                    <h3>Purchase Orders (last 5)</h3>
+                    <div class="activity-feed">
+                        <div class="activity-item" th:each="po : ${recentPurchaseOrders}">
+                            <span th:text="${'PO#' + po.id}"></span>
+                            <span class="activity-date" th:text="${#dates.format(po.orderDate,'yyyy-MM-dd') + ' (' + po.status + ')'}"></span>
+                        </div>
+                    </div>
+
+                    <h3>Waste Reports (last 5)</h3>
+                    <div class="activity-feed">
+                        <div class="activity-item" th:each="wr : ${recentWasteReports}">
+                            <span th:text="${'WR#' + wr.id}"></span>
+                            <span class="activity-date" th:text="${#dates.format(wr.date,'yyyy-MM-dd') + ' (' + wr.quantityWasted + ')'}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">Order Status</div>
+                <div class="card-body">
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <h3>Pending</h3>
+                            <div class="stat-value text-warning" th:text="${pendingOrdersCount}">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Approved</h3>
+                            <div class="stat-value text-success" th:text="${approvedOrdersCount}">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Rejected</h3>
+                            <div class="stat-value text-danger" th:text="${rejectedOrdersCount}">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Low-Stock Ingredients</div>
+                <div class="card-body">
+                    <div th:if="${#lists.isEmpty(lowStockIngredients)}" class="text-muted">
+                        No low-stock ingredients found
+                    </div>
+                    <div class="activity-feed" th:unless="${#lists.isEmpty(lowStockIngredients)}">
+                        <div class="activity-item" th:each="ing : ${lowStockIngredients}">
+                            <span class="text-danger" th:text="${ing.name}"></span>
+                            <span th:text="${ing.quantity + ' ' + ing.unit}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="text-center">
+    <div class="container">
+        <p>&copy; 2023 Kitchen Management System. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

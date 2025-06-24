@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title th:fragment="title">Purchase Orders</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="main-content">
+    <div class="content-wrapper">
+        <div class="dashboard-header">
+            <h1 class="page-title">All Purchase Orders</h1>
+            <p th:if="${#authorization.expression('hasRole(''CHEF'')')}">View and create new orders</p>
+            <p th:if="${#authorization.expression('hasRole(''SUPPLIER'')')}">Review, approve or reject incoming orders</p>
+        </div>
+
+        <div class="table-container">
+            <div class="table-header">
+                <h2>Orders List</h2>
+                <a th:if="${#authorization.expression('hasRole(''CHEF'')')}" class="btn-primary" th:href="@{/purchase-orders/new}">New Purchase Order</a>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Supplier</th>
+                            <th>Order Date</th>
+                            <th>Status</th>
+                            <th>Total Cost</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="po : ${purchaseOrders}">
+                            <td th:text="${po.id}">1</td>
+                            <td th:text="${po.supplier.name}">Supplier Name</td>
+                            <td th:text="${#dates.format(po.orderDate,'yyyy-MM-dd')}">2025-05-01</td>
+                            <td>
+                  <span th:if="${po.status=='PENDING'}"
+                        class="status-badge status-pending"
+                        th:text="${po.status}"></span>
+                                <span th:if="${po.status=='APPROVED'}"
+                                      class="status-badge status-approved"
+                                      th:text="${po.status}"></span>
+                                <span th:if="${po.status!='PENDING' and po.status!='APPROVED'}"
+                                      class="status-badge status-rejected"
+                                      th:text="${po.status}"></span>
+                            </td>
+                            <td th:text="${po.totalCost}">0.00</td>
+                            <td>
+                                <a th:href="@{/purchase-orders/{id}(id=${po.id})}" class="btn-action btn-view">View</a>
+                                <form th:if="${po.status=='PENDING' and #authorization.expression('hasRole(''SUPPLIER'')')}"
+                                      th:action="@{/purchase-orders/{id}/approve(id=${po.id})}"
+                                      method="post" style="display:inline">
+                                    <button class="btn-action btn-success">✓</button>
+                                </form>
+                                <form th:if="${po.status=='PENDING' and #authorization.expression('hasRole(''SUPPLIER'')')}"
+                                      th:action="@{/purchase-orders/{id}/reject(id=${po.id})}"
+                                      method="post" style="display:inline">
+                                    <button class="btn-action btn-danger">✕</button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!-- src/main/resources/templates/supplierboard.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Dashboard | Kitchen Management</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+<div class="main-content">
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1 class="page-title">Supplier Dashboard</h1>
+            <p>Manage and track your orders with the kitchen</p>
+        </div>
+        <div class="dashboard-menu">
+            <a th:href="@{/purchase-orders/supplier}"
+               th:classappend="${filterStatus == null} ? ' active'" class="dashboard-menu-item">
+                <span class="dashboard-menu-item-icon">📋</span>
+                All Orders
+            </a>
+            <a th:href="@{/purchase-orders/supplier(status='PENDING')}"
+               th:classappend="${filterStatus == 'PENDING'} ? ' active'" class="dashboard-menu-item">
+                <span class="dashboard-menu-item-icon">⏳</span>
+                Pending Orders
+            </a>
+            <a th:href="@{/purchase-orders/supplier(status='APPROVED')}"
+               th:classappend="${filterStatus == 'APPROVED'} ? ' active'" class="dashboard-menu-item">
+                <span class="dashboard-menu-item-icon">✅</span>
+                Approved Orders
+            </a>
+            <a th:href="@{/purchase-orders/supplier(status='REJECTED')}"
+               th:classappend="${filterStatus == 'REJECTED'} ? ' active'" class="dashboard-menu-item">
+                <span class="dashboard-menu-item-icon">❌</span>
+                Rejected Orders
+            </a>
+        </div>
+    </div>
+</div>
+
+<footer class="text-center">
+    <div class="container">
+        <p>&copy; 2025 Kitchen Management System. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

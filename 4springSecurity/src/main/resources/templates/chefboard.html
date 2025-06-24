@@ -1,0 +1,42 @@
+<!-- src/main/resources/templates/chefboard.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chef Dashboard | Kitchen Management</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div class="main-content">
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <h1 class="page-title">Chef Dashboard</h1>
+                <p>Manage your kitchen operations</p>
+            </div>
+            <div class="dashboard-menu">
+                <a th:href="@{/ingredients}" class="dashboard-menu-item">
+                    <span class="dashboard-menu-item-icon">📦</span>
+                    Ingredients Management
+                </a>
+                <a th:href="@{/recipes}" class="dashboard-menu-item">
+                    <span class="dashboard-menu-item-icon">📋</span>
+                    Recipes Library
+                </a>
+                <a th:href="@{/purchase-orders/chef}"
+                   th:classappend="${filterStatus == null} ? ' active'" class="dashboard-menu-item">
+                    <span class="dashboard-menu-item-icon">🛒</span>
+                    Purchase Orders
+                </a>
+                
+            </div>
+        </div>
+    </div>
+    
+    <footer class="text-center">
+        <div class="container">
+            <p>&copy; 2025 Kitchen Management System. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
